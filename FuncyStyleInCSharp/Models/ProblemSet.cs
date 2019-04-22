@@ -12,10 +12,6 @@ namespace FuncyStyleInCSharp.Models
         {
             get
             {
-                if(_problems != null)
-                {
-                    return _problems;
-                }
                 var arr = new IProblemBuilder[]{
                     new ProblemBuilder<string, string>()
                         .WithName("Reverse")
@@ -43,9 +39,9 @@ namespace FuncyStyleInCSharp.Models
                     , new ProblemBuilder<string, string>()
                         .WithName("Repeat 3 Times")
                         .WithSolver(FunctionSolver.Repeat3Times)
-                        .WithTestCase("hello world", "hhheeellllllooo wwwooorrrlllddd")
-                        .WithTestCase("Op zen Limburgs", "OOOppp zzzeeennn LLLiiimmmbbbuuurrrgggsss")
-                        .WithTestCase("Microsoft Community", "MMMiiicccrrrooosssooofffttt CCCooommmuuunnniiitttyyy")
+                        .WithTestCase("hello world", "hhheeellllllooo   wwwooorrrlllddd")
+                        .WithTestCase("Op zen Limburgs", "OOOppp   zzzeeennn   LLLiiimmmbbbuuurrrgggsss")
+                        .WithTestCase("Microsoft Community", "MMMiiicccrrrooosssooofffttt   CCCooommmmmmuuunnniiitttyyy")
                     , new ProblemBuilder<string, string>()
                         .WithName("Reverse and Pascal Case")
                         .WithSolver(FunctionSolver.ToReverseAndPascalCase)
@@ -65,14 +61,15 @@ namespace FuncyStyleInCSharp.Models
                     , new ProblemBuilder<string, string>()
                         .WithName("Reverse and Repeat 5 times")
                         .WithSolver(FunctionSolver.ToReverseAndRepeat5Times)
-                        .WithTestCase("hello world", "dddddlllllrrrrrooooowwwww     ooooollllleeeeehhhhh")
+                        .WithTestCase("hello world", "dddddlllllrrrrrooooowwwww     ooooolllllllllleeeeehhhhh")
                         .WithTestCase("Microsoft Community", "yyyyytttttiiiiinnnnnuuuuummmmmmmmmmoooooCCCCC     tttttfffffooooosssssooooorrrrrccccciiiiiMMMMM")
                     , new ProblemBuilder<string, string>()
                         .WithName("Sum of Durations")
                         .WithSolver(FunctionSolver.SumOfDurations)
                         .WithTestCase("1:23", "83 seconds")
+                        .WithTestCase("0:01,0:02,0:03", "6 seconds")
                         .WithTestCase("3:51,4:29,3:24", "704 seconds")
-                        .WithTestCase("3:27,2:43,3:24,3:51,4:12,4:29,3:14,4:46,3:25,4:52", "TODO")
+                        .WithTestCase("3:27,2:43,3:24,3:51,4:12,4:29,3:14,4:46,3:25,4:52", "2303 seconds")
                     , new ProblemBuilder<string, string>()
                         .WithName("Sum of Pages")
                         .WithSolver(FunctionSolver.SumOfPages)
@@ -87,7 +84,7 @@ namespace FuncyStyleInCSharp.Models
                         .WithName("Pizza Count")
                         .WithSolver(FunctionSolver.CountPizzas)
                         .WithTestCase("Pizza2,Pizza1", "1 Pizza1, 1 Pizza2")
-                        .WithTestCase("Pepperoni,BBQ Chicken,Diavola,BBQ Chicken,Cheeseburger,Cheeseburger,BBQ Chicken", "3 BBQ Chicken, 2 Cheesburger, 1 Diavola, 1 Pepperoni")
+                        .WithTestCase("Pepperoni,BBQ Chicken,Diavola,BBQ Chicken,Cheeseburger,Cheeseburger,BBQ Chicken", "3 BBQ Chicken, 2 Cheeseburger, 1 Diavola, 1 Pepperoni")
                         .WithTestCase("a,c,e,g,b,d,f,h,e,b", "2 b, 2 e, 1 a, 1 c, 1 d, 1 f, 1 g, 1 h")
                     };
                 return _problems = arr

@@ -74,7 +74,7 @@ namespace FuncyStyleInCSharp.Models
                 stopwatch.Start();
                 TSol res = this._solveFunc(this._cases[i]);
                 stopwatch.Stop();
-                tc.Duration = stopwatch.ElapsedMilliseconds;
+                tc.Duration = stopwatch.ElapsedMilliseconds < 1 ? 1 : stopwatch.ElapsedMilliseconds;
                 tc.Actual = res.ToString();
                 tc.State = this._correctChecker(this._expecteds[i], res) ? TestCaseState.Correct : TestCaseState.Incorrect;
             }
