@@ -1,0 +1,40 @@
+﻿@model FuncyStyleInCSharp.Models.Problem
+@{
+    ViewData["Title"] = "Problem";
+    var testId = 0;
+}
+<h3>
+    @Model.Name
+</h3>
+<div class="row">
+    @foreach (var testCase in @Model.TestCases)
+    {
+    ++testId;
+    <div class="col-md-3 @testCase.State">
+        <div class="panel panel-default">
+            <div class="panel-heading">Case @testId (@testCase.State)</div>
+            <div class="panel-body">
+                Input: @testCase.Input
+            </div>
+            <div class="panel-body primary">
+                Expected: @testCase.Expected
+            </div>
+            @if(testCase.State == TestCaseState.Incorrect){
+            <div class="panel-body error">
+                Actual: @testCase.Actual
+            </div>
+            }
+            @if(testCase.Duration > 0){
+            <div class="panel-body">
+                Duration: @(testCase.Duration)ms
+            </div>
+            }
+            @if(!string.IsNullOrWhiteSpace(testCase.Info)){
+            <div class="panel-body">
+                Info: @testCase.Info
+            </div>
+            }
+        </div>
+    </div>
+    }
+</div>

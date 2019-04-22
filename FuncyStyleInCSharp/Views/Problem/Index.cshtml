@@ -1,0 +1,18 @@
+﻿@model IEnumerable<FuncyStyleInCSharp.Models.Problem>
+@{
+    ViewData["Title"] = "Problem overview";
+}
+<div class="row">
+    @foreach (var problem in @Model)
+    {
+    <div class="col-md-3 @problem.State">
+        <div class="panel panel-default">
+            <div class="panel-heading">@problem.Name</div>
+            <div class="panel-body">@problem.State</div>
+            <div class="panel-body">
+                @Html.ActionLink("Check results", "Detail", "Problem", new { name = problem.LinkName})
+            </div>
+        </div>
+    </div>
+   }
+</div>
