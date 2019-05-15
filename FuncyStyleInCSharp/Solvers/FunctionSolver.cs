@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -9,22 +10,18 @@ namespace FuncyStyleInCSharp.Solvers
         public static Func<int, int> Fibonacci => i => i <= 2 ? 1 : Fibonacci(i - 1) + Fibonacci(i - 2);
 
         // Fibonacci implementation for "large" numbers
-        public static Func<int, long> FibonacciLarge => i =>
-        {
-            if (i <= 2)
-            {
-                return 1;
-            }
-            long a1 = 1;
-            long a2 = 1;
-            while (i-- > 2)
-            {
-                long tmp = a2;
-                a2 += a1;
-                a1 = tmp;
-            }
-            return a2;
-        };
+        public static Func<int, long> FibonacciLarge => i => FibonacciWithMemoization(i, new Dictionary<long, long>());
+
+        //Recursive way with memoization
+        public static long FibonacciWithMemoization(long i, Dictionary<long, long> cache) => cache.ContainsKey(i)
+            ? cache[i]
+            : cache[i] = (i < 2 ? i : FibonacciWithMemoization(i - 1, cache) + FibonacciWithMemoization(i - 2, cache));
+
+        // Alternative way with aggregate
+        public static Func<int, long> FibonacciLarge2 => i => Enumerable.Range(2, i).Aggregate(
+            new Dictionary<int, long>() { { 0, 0 }, { 1, 1 } }
+            , (acc, cur) => { acc[cur] = acc[cur - 1] + acc[cur - 2]; return acc; }
+            , acc => acc[i]);
 
         //AzErTy -> yTrEzA
         public static Func<string, string> ToReverse =>
@@ -91,14 +88,26 @@ namespace FuncyStyleInCSharp.Solvers
         // "1,2" => "1-2"
         // "A,B,C,D" => "A-D,B-C"
         // "Djokovic,Nadal,Federer,Thiem,Zverev,Anderson,Tsitsipas,Nishikori" => "Djokovic-Nishikori,Nadal-Tsitsipas,Federer-Anderson,Thiem-Zverev"
-        public static Func<string, string> CrossFinal => s => throw new NotImplementedException("TODO");
+        public static Func<string, string> CrossFinal =>
+            s => s.Split(",", StringSplitOptions.RemoveEmptyEntries)
+               .Pipe((IEnumerable<string> players) =>
+                    players
+                        .Take(players.Count() / 2)
+                        .Zip(players.Reverse(), (string a, string b) => a + "-" + b)
+               ).Aggregate(new StringBuilder()
+                            , (acc, cur) => acc.Append(acc.Length == 0 ? "" : ",").Append(cur)
+                            , acc => acc.ToString())
+            ;
 
         // validate if a sequence of braces is correct (and make lisp programmers happy)
         // there should be as many opening braces '(' as closing braces ')'. At no time there can be a closing brace without a preceding opening brace
         // ()(())() => true
         // (()() => false
         // )()( => false
-        public static Func<string, bool> ValidBraces => s => throw new NotImplementedException("TODO");
+        public static Func<string, bool> ValidBraces =>
+            s => s.Aggregate(new { cur = 0, min = 0 }
+                , (acc, x) => new { cur = acc.cur + (x == '(' ? 1 : -1), min = Math.Min(acc.min, acc.cur) }
+                , acc => acc.cur == 0 && acc.min == 0);
     }
     public static class FunctionUtils
     {
